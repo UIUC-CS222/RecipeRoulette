@@ -1,8 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
-import Logo from './components/Logo';
 import Navbar from './components/Navbar';
 import Background from './jumbotron.jpg';
+
 function App() {
   return (
     <div className="App">

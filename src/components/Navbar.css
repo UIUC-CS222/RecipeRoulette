@@ -36,7 +36,7 @@
 }
 
 .cta-content{
-    background-color: rgb(230, 38, 58);
+    background-color: #e6263a;
     padding: 0.5rem;
     border: none;
     outline: none;
@@ -44,5 +44,6 @@
     padding-right: 2rem;
     border-radius: 0.5rem;
     color: white;
+    cursor: pointer;
     font-weight: bold;
 }
