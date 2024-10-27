@@ -22,7 +22,7 @@ app.use(passport.session());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI || "mongodb+srv://uiuccs222:c6OEApJws4hScUzb@recipe-roulette.if02d.mongodb.net/?retryWrites=true&w=majority&appName=Recipe-Roulette", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((error) => console.error('MongoDB connection error:', error));
 
@@ -145,6 +145,17 @@ app.delete('/recipes/:id', isAuthenticated, async (req, res) => {
 app.get('/logout', isAuthenticated, function (req, res) {
   req.logout();
   res.json({ message: 'Logged out successfully' });
+});
+
+
+// Route to get all recipes
+app.get('/recipes', async (req, res) => {
+  try {
+    const recipes = await Recipe.find();
+    res.json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Start the server
