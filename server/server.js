@@ -22,7 +22,7 @@ app.use(passport.session());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI || "mongodb+srv://uiuccs222:c6OEApJws4hScUzb@recipe-roulette.if02d.mongodb.net/?retryWrites=true&w=majority&appName=Recipe-Roulette", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((error) => console.error('MongoDB connection error:', error));
 
