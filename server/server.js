@@ -147,6 +147,8 @@ app.get('/logout', isAuthenticated, function (req, res) {
   res.json({ message: 'Logged out successfully' });
 });
 
+
+
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
