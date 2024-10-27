@@ -158,6 +158,28 @@ app.get('/recipes', async (req, res) => {
   }
 });
 
+// Route to add a new recipe
+app.post('/recipes', async (req, res) => {
+  const { title, ingredients, instructions, prepTime, cookTime, servings, tags } = req.body;
+  const recipe = new Recipe({
+    title,
+    ingredients,
+    instructions,
+    prepTime,
+    cookTime,
+    servings,
+    tags,
+  });
+
+  try {
+    const newRecipe = await recipe.save();
+    res.status(201).json(newRecipe);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
