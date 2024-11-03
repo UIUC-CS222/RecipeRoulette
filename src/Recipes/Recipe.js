@@ -19,7 +19,7 @@ function Recipes() {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/recipes');
+      const response = await axios.get('http://localhost:3001/recipes', { withCredentials: true });
       setRecipes(response.data);
     } catch (error) {
       console.error('Error fetching recipes:', error);
@@ -29,7 +29,7 @@ function Recipes() {
   const handleAddRecipe = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/recipes', newRecipe);
+      await axios.post('http://localhost:3001/recipes', newRecipe, { withCredentials: true });
       fetchRecipes();
       setNewRecipe({
         title: '',
@@ -43,6 +43,19 @@ function Recipes() {
     } catch (error) {
       console.error('Error adding recipe:', error);
     }
+  };
+
+  const addIngredient = () => {
+    setNewRecipe({
+      ...newRecipe,
+      ingredients: [...newRecipe.ingredients, { name: '', quantity: '' }],
+    });
+  };
+
+  const handleIngredientChange = (index, field, value) => {
+    const updatedIngredients = [...newRecipe.ingredients];
+    updatedIngredients[index][field] = value;
+    setNewRecipe({ ...newRecipe, ingredients: updatedIngredients });
   };
 
   return (
@@ -77,7 +90,59 @@ function Recipes() {
           onChange={(e) => setNewRecipe({ ...newRecipe, title: e.target.value })}
           required
         />
-        {/* Add inputs for other fields as needed */}
+        {newRecipe.ingredients.map((ingredient, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder="Ingredient Name"
+              value={ingredient.name}
+              onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Quantity"
+              value={ingredient.quantity}
+              onChange={(e) => handleIngredientChange(index, 'quantity', e.target.value)}
+              required
+            />
+          </div>
+        ))}
+        <button type="button" onClick={addIngredient}>Add Ingredient</button>
+        <input
+          type="text"
+          placeholder="Instructions"
+          value={newRecipe.instructions}
+          onChange={(e) => setNewRecipe({ ...newRecipe, instructions: e.target.value })}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Prep Time"
+          value={newRecipe.prepTime}
+          onChange={(e) => setNewRecipe({ ...newRecipe, prepTime: e.target.value })}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Cook Time"
+          value={newRecipe.cookTime}
+          onChange={(e) => setNewRecipe({ ...newRecipe, cookTime: e.target.value })}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Servings"
+          value={newRecipe.servings}
+          onChange={(e) => setNewRecipe({ ...newRecipe, servings: e.target.value })}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Tags (comma separated)"
+          value={newRecipe.tags.join(', ')}
+          onChange={(e) => setNewRecipe({ ...newRecipe, tags: e.target.value.split(', ') })}
+        />
         <button type="submit">Add Recipe</button>
       </form>
     </div>

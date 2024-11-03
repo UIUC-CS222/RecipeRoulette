@@ -1,4 +1,3 @@
-// server.js
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,7 +13,7 @@ app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 // Initialize session middleware
-app.use(session({ secret: 'secretKey', resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.SESSION_SECRET || 'secretKey', resave: false, saveUninitialized: false }));
 
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize());
@@ -22,7 +21,7 @@ app.use(passport.session());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb+srv://uiuccs222:c6OEApJws4hScUzb@recipe-roulette.if02d.mongodb.net/?retryWrites=true&w=majority&appName=Recipe-Roulette", { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((error) => console.error('MongoDB connection error:', error));
 
@@ -65,8 +64,6 @@ function isAuthenticated(req, res, next) {
 app.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
-
-    // Check if username already exists
     const userExists = await User.findOne({ username });
     if (userExists) return res.status(400).json({ message: 'Username already exists' });
 
@@ -79,7 +76,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Routes for user login
 app.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) return next(err);
@@ -92,7 +88,12 @@ app.post('/login', function (req, res, next) {
   })(req, res, next);
 });
 
-// Routes for CRUD operations
+app.get('/logout', isAuthenticated, function (req, res) {
+  req.logout();
+  res.json({ message: 'Logged out successfully' });
+});
+
+// Routes for CRUD operations with authentication
 app.post('/recipes', isAuthenticated, async (req, res) => {
   try {
     const recipe = new Recipe(req.body);
@@ -142,45 +143,6 @@ app.delete('/recipes/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/logout', isAuthenticated, function (req, res) {
-  req.logout();
-  res.json({ message: 'Logged out successfully' });
-});
-
-
-// Route to get all recipes
-app.get('/recipes', async (req, res) => {
-  try {
-    const recipes = await Recipe.find();
-    res.json(recipes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Route to add a new recipe
-app.post('/recipes', async (req, res) => {
-  const { title, ingredients, instructions, prepTime, cookTime, servings, tags } = req.body;
-  const recipe = new Recipe({
-    title,
-    ingredients,
-    instructions,
-    prepTime,
-    cookTime,
-    servings,
-    tags,
-  });
-
-  try {
-    const newRecipe = await recipe.save();
-    res.status(201).json(newRecipe);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-
-// Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
