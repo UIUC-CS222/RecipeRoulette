@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 function Recipes() {
   const [recipes, setRecipes] = useState([]);
@@ -7,9 +8,8 @@ function Recipes() {
     title: '',
     ingredients: [{ name: '', quantity: '' }],
     instructions: '',
-    prepTime: 0,
-    cookTime: 0,
-    servings: 1,
+    prepTime: '',
+    cookTime: '',
     tags: [],
   });
 
@@ -35,9 +35,8 @@ function Recipes() {
         title: '',
         ingredients: [{ name: '', quantity: '' }],
         instructions: '',
-        prepTime: 0,
-        cookTime: 0,
-        servings: 1,
+        prepTime: '',
+        cookTime: '',
         tags: [],
       });
     } catch (error) {
@@ -58,9 +57,63 @@ function Recipes() {
     setNewRecipe({ ...newRecipe, ingredients: updatedIngredients });
   };
 
+  // Updated style objects
+  const pageStyle = {
+    paddingTop: '80px', // Adds padding to avoid content being hidden by the navbar
+  };
+
+  const formStyle = {
+    backgroundColor: '#f1f1f1',
+    padding: '20px',
+    borderRadius: '8px',
+    maxWidth: '500px',
+    margin: 'auto',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    fontFamily: 'Arial, sans-serif',
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    marginTop: '8px',
+    marginBottom: '16px',
+    border: '1px solid #333',
+    borderRadius: '4px',
+    boxSizing: 'border-box',
+    fontFamily: 'Arial, sans-serif',
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#d32f2f',
+    color: 'white',
+    padding: '12px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontFamily: 'Arial, sans-serif',
+  };
+
+  const titleStyle = {
+    textAlign: 'center',
+    fontSize: '24px',
+    color: '#333',
+    marginBottom: '20px',
+    fontFamily: 'Arial, sans-serif',
+  };
+
+  const messageStyle = {
+    textAlign: 'center',
+    fontSize: '18px',
+    color: '#d32f2f',
+    margin: '20px 0',
+    fontFamily: 'Arial, sans-serif',
+  };
+
   return (
-    <div>
-      <h2>Recipes</h2>
+    <div style={pageStyle}>
+      <Navbar />
+      <div style={messageStyle}>Add</div>
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe._id}>
@@ -68,7 +121,6 @@ function Recipes() {
             <p><strong>Instructions:</strong> {recipe.instructions}</p>
             <p><strong>Prep Time:</strong> {recipe.prepTime} minutes</p>
             <p><strong>Cook Time:</strong> {recipe.cookTime} minutes</p>
-            <p><strong>Servings:</strong> {recipe.servings}</p>
             <p><strong>Tags:</strong> {recipe.tags.join(', ')}</p>
             <h4>Ingredients:</h4>
             <ul>
@@ -81,23 +133,25 @@ function Recipes() {
           </li>
         ))}
       </ul>
-      <h2>Add New Recipe</h2>
-      <form onSubmit={handleAddRecipe}>
+      <h2 style={titleStyle}>Add New Recipe</h2>
+      <form onSubmit={handleAddRecipe} style={formStyle}>
         <input
           type="text"
           placeholder="Title"
           value={newRecipe.title}
           onChange={(e) => setNewRecipe({ ...newRecipe, title: e.target.value })}
           required
+          style={inputStyle}
         />
         {newRecipe.ingredients.map((ingredient, index) => (
-          <div key={index}>
+          <div key={index} style={{ display: 'flex', gap: '10px' }}>
             <input
               type="text"
               placeholder="Ingredient Name"
               value={ingredient.name}
               onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
               required
+              style={inputStyle}
             />
             <input
               type="text"
@@ -105,45 +159,47 @@ function Recipes() {
               value={ingredient.quantity}
               onChange={(e) => handleIngredientChange(index, 'quantity', e.target.value)}
               required
+              style={inputStyle}
             />
           </div>
         ))}
-        <button type="button" onClick={addIngredient}>Add Ingredient</button>
+        <button type="button" onClick={addIngredient} style={buttonStyle}>
+          Add Ingredient
+        </button>
+        <input
+          type="text"
+          placeholder="Prep Time"
+          value={newRecipe.prepTime}
+          onChange={(e) => setNewRecipe({ ...newRecipe, prepTime: e.target.value })}
+          required
+          style={inputStyle}
+        />
+        <input
+          type="text"
+          placeholder="Cook Time"
+          value={newRecipe.cookTime}
+          onChange={(e) => setNewRecipe({ ...newRecipe, cookTime: e.target.value })}
+          required
+          style={inputStyle}
+        />
         <input
           type="text"
           placeholder="Instructions"
           value={newRecipe.instructions}
           onChange={(e) => setNewRecipe({ ...newRecipe, instructions: e.target.value })}
           required
-        />
-        <input
-          type="number"
-          placeholder="Prep Time"
-          value={newRecipe.prepTime}
-          onChange={(e) => setNewRecipe({ ...newRecipe, prepTime: e.target.value })}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Cook Time"
-          value={newRecipe.cookTime}
-          onChange={(e) => setNewRecipe({ ...newRecipe, cookTime: e.target.value })}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Servings"
-          value={newRecipe.servings}
-          onChange={(e) => setNewRecipe({ ...newRecipe, servings: e.target.value })}
-          required
+          style={inputStyle}
         />
         <input
           type="text"
           placeholder="Tags (comma separated)"
           value={newRecipe.tags.join(', ')}
           onChange={(e) => setNewRecipe({ ...newRecipe, tags: e.target.value.split(', ') })}
+          style={inputStyle}
         />
-        <button type="submit">Add Recipe</button>
+        <button type="submit" style={buttonStyle}>
+          Add Recipe
+        </button>
       </form>
     </div>
   );
