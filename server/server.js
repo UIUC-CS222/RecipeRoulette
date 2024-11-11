@@ -106,7 +106,17 @@ app.post('/recipes', isAuthenticated, async (req, res) => {
 
 app.get('/recipes', isAuthenticated, async (req, res) => {
   try {
-    const recipes = await Recipe.find();
+    const { title, ingredient, tag, maxPrepTime, maxCookTime, servings } = req.query;
+    const query = {};
+
+    if (title) query.title = new RegExp(title, 'i');
+    if (ingredient) query['ingredients.name'] = new RegExp(ingredient, 'i');
+    if (tag) query.tags = tag;
+    if (maxPrepTime) query.prepTime = { $lte: parseInt(maxPrepTime) };
+    if (maxCookTime) query.cookTime = { $lte: parseInt(maxCookTime) };
+    if (servings) query.servings = servings;
+
+    const recipes = await Recipe.find(query);
     res.json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });
