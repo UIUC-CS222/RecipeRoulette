@@ -53,12 +53,14 @@
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 8px;
+    border: 12px solid #B22222;
     text-align: center;
     transition: transform 0.3s ease;
   }
   
   .feature-card:hover {
     transform: translateY(-5px);
+    background-image: url("https://media.istockphoto.com/id/475511846/vector/kitchen-seamless-pattern-vector-background.jpg?s=612x612&w=0&k=20&c=inpW5Mc2MFyuc7PsMXVY49OUBU39EXekcCNe8xVeI_k=");
   }
   
 
@@ -97,7 +99,6 @@
     color: #e6263a;
   }
   
-  /* Responsive adjustments */
   @media (max-width: 768px) {
     .about-content {
       padding: 1rem;
@@ -113,7 +114,6 @@
     }
   }
   
-  /* Keep existing styles */
   * {
       box-sizing: border-box;
   }
