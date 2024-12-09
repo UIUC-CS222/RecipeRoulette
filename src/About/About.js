@@ -40,18 +40,18 @@ function AboutUs() {
               <div className="team-member">
                 <div className="member-photo"></div>
                 <img src={require("./WhatsApp Image 2024-12-08 at 7.57.16 PM.jpeg")} width="200" height="200"></img>
-                <h3> <a href="/login">Spandan Uprit</a></h3>
+                <h3>Spandan Uprit</h3>
               </div>
               <div className="team-member">
                 <div className="member-photo"></div>
                 <img src={require('./1680374011690.jpeg')}></img>
 
-                <h3> <a href="/login">Anujay Surana</a></h3>
+                <h3>Anujay Surana</h3>
               </div>
               <div className="team-member">
                 <div className="member-photo"></div>
                 <img src={require('./WhatsApp Image 2024-12-08 at 7.51.22 PM.jpeg')} width="200" height="200"></img>
-                <h3> <a href="/login">Mihika Hemrajani</a></h3>
+                <h3>Mihika Hemrajani</h3>
               </div>
             </div>
           </section>
