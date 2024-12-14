@@ -5,7 +5,7 @@ limitations, and on-hand ingredients. The app is versatile enough to assist thos
 Roulette encourages users globally to broaden their cooking horizons by streamlining menu planning and
 minimizing food spoilage.
 
-#Technical Architecture
+# Technical Architecture
 
 ![image](https://github.com/user-attachments/assets/1cd2d550-4535-403d-a02d-54f0c7cd9b4e)
 
@@ -21,7 +21,7 @@ Worked on using dynamic components on the About Us and Home Pages. Used React an
 Mihika Hemrajani - Frontend Development:
 Worked on using dynamic components on the Home and Recipies Pages. Used React and CSS for development.
 
-# Getting Started with Create React App
+# Basic commands to run the REACT App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
